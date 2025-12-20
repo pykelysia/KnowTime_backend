@@ -11,7 +11,7 @@ func Bind(server *gin.Engine) (err error) {
 	{
 		userGroup.POST("/login", userLoginHandler())
 		userGroup.POST("/logup", userLogupHandler())
-		userGroup.POST("/info", middleware.JWTAuthMiddleware(), userInfo())
+		userGroup.GET("/info", middleware.JWTAuthMiddleware(), userInfo())
 	}
 
 	internalGroup := server.Group("/internal")
