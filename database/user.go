@@ -22,7 +22,12 @@ func (*User) Update(user *User) (err error) {
 	return
 }
 
-func (*User) Get(name string) (user *User, err error) {
-	err = db.Where("name = ?", name).First(&user).Error
+func (*User) Get(uid uint) (user *User, err error) {
+	err = db.Model(&User{}).Where("uId = ?", uid).First(&user).Error
+	return
+}
+
+func (*User) GetByName(name string) (user *User, err error) {
+	err = db.Model(&User{}).Where("name = ?", name).First(&user).Error
 	return
 }
