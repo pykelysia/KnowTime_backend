@@ -1,8 +1,5 @@
 package route
 
-type (
-	baseMsg struct {
-		Code    int    `json:"code"`
-		Message string `json:"message"`
-	}
-)
+import "knowtime/internal"
+
+type BaseMsg internal.BaseMsg
