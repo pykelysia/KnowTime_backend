@@ -1,16 +1,21 @@
 package route
 
-import "github.com/gin-gonic/gin"
+import (
+	"knowtime/middleware"
+
+	"github.com/gin-gonic/gin"
+)
 
 func Bind(server *gin.Engine) (err error) {
 	userGroup := server.Group("/user")
 	{
 		userGroup.POST("/login", userLoginHandler())
 		userGroup.POST("/logup", userLogupHandler())
-		userGroup.POST("/info", userInfo())
+		userGroup.POST("/info", middleware.JWTAuthMiddleware(), userInfo())
 	}
 
 	internalGroup := server.Group("/internal")
+	internalGroup.Use(middleware.JWTAuthMiddleware())
 	{
 		internalGroup.POST("/usual-msg-post", internalUsualMsgPost())
 		internalGroup.POST("/generate", internalGenerate())
