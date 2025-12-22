@@ -2,6 +2,7 @@ package route
 
 import (
 	"knowtime/database"
+	"knowtime/internal"
 	"knowtime/middleware"
 	"net/http"
 	"strconv"
@@ -34,21 +35,16 @@ func userLoginHandler() gin.HandlerFunc {
 			return
 		}
 
-		// TODO: add hash and move to internal/
-		userEngine := database.NewUser()
-		userFromDB, err := userEngine.GetByName(req.Name)
-		if err != nil || req.Password != userFromDB.Password {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"net_message": BaseMsg{
-					Code:    400,
-					Message: "Invalid username or password error",
-				},
+		uid, b, err := internal.UserLoginInternal(req.Name, req.Password)
+		if err != nil {
+			ctx.JSON(b.Code, gin.H{
+				"net_message": b,
 			})
 			return
 		}
 
 		// 生成JWT token
-		token, err := middleware.GenerateJWT(userFromDB.UId)
+		token, err := middleware.GenerateJWT(uid)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{
 				"net_message": BaseMsg{
@@ -66,7 +62,7 @@ func userLoginHandler() gin.HandlerFunc {
 			},
 			"data": LoginData{
 				Token: token,
-				UId:   userFromDB.UId,
+				UId:   uid,
 			},
 		})
 	}
@@ -96,19 +92,10 @@ func userLogupHandler() gin.HandlerFunc {
 			return
 		}
 
-		// TODO: add hash and move to internal/
-		userEngine := database.NewUser()
-		userToDB := database.User{
-			Name:     userFromReq.Name,
-			Password: userFromReq.Password,
-		}
-		uid, err := userEngine.Create(&userToDB)
+		uid, b, err := internal.UserLogupInternal(userFromReq.Name, userFromReq.Password)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"net_message": BaseMsg{
-					Code:    500,
-					Message: "Could not log up user",
-				},
+			ctx.JSON(b.Code, gin.H{
+				"net_message": b,
 			})
 			return
 		}
