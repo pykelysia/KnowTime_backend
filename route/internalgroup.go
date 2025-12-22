@@ -1,15 +1,18 @@
 package route
 
 import (
+	"knowtime/internal"
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func internalUsualMsgPost() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		userID, exists := ctx.Get("user_id")
-		if !exists {
+		userIDFromJWT, exists := ctx.Get("user_id")
+		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
+		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {
 			ctx.JSON(http.StatusUnauthorized, BaseMsg{
 				Code:    401,
 				Message: "User not authenticated",
@@ -17,19 +20,39 @@ func internalUsualMsgPost() gin.HandlerFunc {
 			return
 		}
 
-		// TODO: 实现具体业务逻辑，这里可以使用userID
+		var i internal.InternalUsualMsgPostReq
+		if err := ctx.ShouldBindJSON(&i); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"net_message": BaseMsg{
+					Code:    400,
+					Message: "Invalid request body",
+				},
+			})
+			return
+		}
 
-		ctx.JSON(http.StatusOK, BaseMsg{
-			Code:    200,
-			Message: "User ID: " + string(rune(userID.(uint))),
+		b, err := internal.InternalUsualMsgPostInternal(i)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"net_message": b,
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"net_message": b,
+			"data": map[string]any{
+				"success": true,
+			},
 		})
 	}
 }
 
 func internalGenerate() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		userID, exists := ctx.Get("user_id")
-		if !exists {
+		userIDFromJWT, exists := ctx.Get("user_id")
+		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
+		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {
 			ctx.JSON(http.StatusUnauthorized, BaseMsg{
 				Code:    401,
 				Message: "User not authenticated",
@@ -38,10 +61,28 @@ func internalGenerate() gin.HandlerFunc {
 		}
 
 		// TODO: 实现具体业务逻辑，这里可以使用userID
+		var iReq internal.InternalGenerateReq
+		if err := ctx.ShouldBindJSON(&iReq); err != nil {
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				"net_message": BaseMsg{
+					Code:    400,
+					Message: "Invalid request body",
+				},
+			})
+			return
+		}
 
-		ctx.JSON(http.StatusOK, BaseMsg{
-			Code:    200,
-			Message: "Authenticated user ID: " + string(rune(userID.(uint))),
+		iResp, b, err := internal.InternalGenerateInternal(iReq)
+		if err != nil {
+			ctx.JSON(http.StatusInternalServerError, gin.H{
+				"net_message": b,
+			})
+			return
+		}
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"net_message": b,
+			"data":        iResp,
 		})
 	}
 }
