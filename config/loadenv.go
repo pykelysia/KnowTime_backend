@@ -16,4 +16,6 @@ func LoadEnv(p string) {
 	ImageModelName = os.Getenv("IMAGE_MODEL_NAME")
 	BaseURL = os.Getenv("BASE_URL")
 	APIKey = os.Getenv("API_KEY")
+
+	JwtKey = []byte(os.Getenv("JWT_KEY"))
 }

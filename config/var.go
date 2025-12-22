@@ -5,4 +5,6 @@ var (
 	ImageModelName = ""
 	BaseURL        = ""
 	APIKey         = ""
+
+	JwtKey = []byte{}
 )

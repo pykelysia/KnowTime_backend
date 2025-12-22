@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"knowtime/config"
 	"knowtime/internal"
 	"net/http"
 	"strings"
@@ -10,7 +11,7 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtKey = []byte("knowtime_secret_key")
+var jwtKey = config.JwtKey
 
 type Claims struct {
 	UserID uint `json:"user_id"`
