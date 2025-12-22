@@ -17,8 +17,8 @@ func Bind(server *gin.Engine) (err error) {
 	internalGroup := server.Group("/internal")
 	internalGroup.Use(middleware.JWTAuthMiddleware())
 	{
-		internalGroup.POST("/usual-msg-post", internalUsualMsgPost())
-		internalGroup.POST("/generate", internalGenerate())
+		internalGroup.POST("/usual-msg-post", internalUsualMsgPostHandler())
+		internalGroup.POST("/generate", internalGenerateHandler())
 	}
 	return
 }

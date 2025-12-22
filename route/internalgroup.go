@@ -8,7 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func internalUsualMsgPost() gin.HandlerFunc {
+func internalUsualMsgPostHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userIDFromJWT, exists := ctx.Get("user_id")
 		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
@@ -48,7 +48,7 @@ func internalUsualMsgPost() gin.HandlerFunc {
 	}
 }
 
-func internalGenerate() gin.HandlerFunc {
+func internalGenerateHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userIDFromJWT, exists := ctx.Get("user_id")
 		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
@@ -60,7 +60,6 @@ func internalGenerate() gin.HandlerFunc {
 			return
 		}
 
-		// TODO: 实现具体业务逻辑，这里可以使用userID
 		var iReq internal.InternalGenerateReq
 		if err := ctx.ShouldBindJSON(&iReq); err != nil {
 			ctx.JSON(http.StatusBadRequest, gin.H{
