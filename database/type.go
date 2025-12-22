@@ -11,8 +11,7 @@ type (
 	TimeEvent struct {
 		TimeEventId uint   `gorm:"primaryKey; autoIncrement; column:timeEventId"`
 		Date        string `gorm:"column:date"`
-		PackageName string `gorm:"column:packageName"`
-		ClassName   string `gorm:"column:className"`
+		AppName     string `gorm:"column:appName"`
 		Duration    int    `gorm:"column:duration"`
 		UIdRefer    uint   `gorm:"column:uIdRefer"`
 	}
