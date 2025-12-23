@@ -17,7 +17,7 @@ func reAct(ctx context.Context) (lba *compose.Lambda, err error) {
 		return nil, err
 	}
 	config.ToolCallingModel = chatModelIns11
-	toolIns21, err := getData(ctx)
+	toolIns21, err := queryTimeEvents(ctx)
 	if err != nil {
 		return nil, err
 	}
