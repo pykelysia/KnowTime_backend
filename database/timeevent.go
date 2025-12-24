@@ -21,3 +21,8 @@ func (*TimeEvent) Update(te *TimeEvent) (err error) {
 	err = db.Model(&TimeEvent{}).Where("timeEventId = ?").Updates(te).Error
 	return
 }
+
+func (*TimeEvent) Gets(uid uint, date string) (tes []TimeEvent, err error) {
+	err = db.Model(&TimeEvent{}).Where("uIdRefer = ?", uid).Where("date = ?", date).Find(tes).Error
+	return
+}

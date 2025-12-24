@@ -11,6 +11,7 @@ import (
 
 type ToolImpl struct {
 	config *ToolConfig
+	ctx    context.Context
 }
 
 // add back service param
@@ -20,12 +21,11 @@ type ToolConfig struct {
 }
 
 func queryTimeEvents(ctx context.Context) (bt tool.BaseTool, err error) {
-	// TODO Modify component configuration here.
 	config := &ToolConfig{
 		uDatabse:   database.NewUser(),
 		teDatabase: database.NewTimeEvent(),
 	}
-	bt = &ToolImpl{config: config}
+	bt = &ToolImpl{config: config, ctx: ctx}
 	return bt, nil
 }
 
@@ -57,10 +57,17 @@ func (impl *ToolImpl) InvokableRun(ctx context.Context, argumentsInJSON string, 
 	}
 
 	// internal
-	tes := &timeEvent{}
+	tesFromDB, err := impl.config.teDatabase.Gets(q.UId, q.Date)
+	tesToModel := []timeEvent{}
+	for _, te := range tesFromDB {
+		tesToModel = append(tesToModel, timeEvent{
+			AppName:  te.AppName,
+			Duration: te.Duration,
+		})
+	}
 
 	// Marshal
-	res, err := json.Marshal(tes)
+	res, err := json.Marshal(tesToModel)
 
 	return string(res), nil
 }
