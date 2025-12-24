@@ -17,4 +17,11 @@ type (
 		Duration int  `gorm:"column:duration"`
 		UIdRefer uint `gorm:"column:uIdRefer"`
 	}
+	DatabaseConfig struct {
+		Username string
+		Password string
+		Host     string
+		Port     string
+		Name     string
+	}
 )
