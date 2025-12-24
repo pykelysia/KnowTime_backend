@@ -1,8 +1,10 @@
 package internal
 
 import (
+	"context"
 	"errors"
 	"knowtime/database"
+	"knowtime/internal/generate"
 	"time"
 )
 
@@ -50,6 +52,26 @@ func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg,
 }
 
 func InternalGenerateInternal(i InternalGenerateReq) (InternalGenerateResp, BaseMsg, error) {
+	reActEngine, err := generate.BuildsoftNew(context.Background())
+	if err != nil {
+		return InternalGenerateResp{}, BaseMsg{
+			Code:    500,
+			Message: "Falied to build ReAct agent",
+		}, err
+	}
 
-	return InternalGenerateResp{}, BaseMsg{}, nil
+	output, err := reActEngine.Invoke(context.Background(), map[string]any{})
+	if err != nil {
+		return InternalGenerateResp{}, BaseMsg{
+			Code:    500,
+			Message: "Failed to call Agent",
+		}, err
+	}
+
+	return InternalGenerateResp{
+			Output: output,
+		}, BaseMsg{
+			Code:    200,
+			Message: "Call agent successful",
+		}, nil
 }
