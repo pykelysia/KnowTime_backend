@@ -41,7 +41,7 @@ func (impl *ToolImpl) Info(ctx context.Context) (*schema.ToolInfo, error) {
 			},
 			"date": {
 				Type:     "string",
-				Desc:     "the date to quary. should be like `2000-1-1` (expect the ``)",
+				Desc:     "the date to quary. should be like `2000-01-01` (expect the ``)",
 				Required: true,
 			},
 		}),

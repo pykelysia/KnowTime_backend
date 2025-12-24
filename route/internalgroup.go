@@ -31,7 +31,7 @@ func internalUsualMsgPostHandler() gin.HandlerFunc {
 			return
 		}
 
-		b, err := internal.InternalUsualMsgPostInternal(i)
+		b, err := internal.InternalUsualMsgPostInternal(userIDFromJWT.(uint), i)
 		if err != nil {
 			ctx.JSON(http.StatusInternalServerError, gin.H{
 				"net_message": b,
