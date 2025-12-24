@@ -21,3 +21,11 @@ func (*TimeEvent) Update(te *TimeEvent) (err error) {
 	err = db.Model(&TimeEvent{}).Where("timeEventId = ?").Updates(te).Error
 	return
 }
+
+func (*TimeEvent) GetByAppNameAndDate(appName, date string) (te TimeEvent, err error) {
+	err = db.Model(&TimeEvent{}).
+		Where("date = ?", date).
+		Where("appName = ?", appName).
+		First(&te).Error
+	return
+}

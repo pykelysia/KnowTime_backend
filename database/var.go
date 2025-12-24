@@ -3,5 +3,6 @@ package database
 import "gorm.io/gorm"
 
 var (
-	db *gorm.DB
+	db                *gorm.DB
+	ErrRecordNotFound = gorm.ErrRecordNotFound
 )
