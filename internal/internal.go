@@ -8,11 +8,12 @@ import (
 
 func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg, error) {
 	timeEventEngine := database.NewTimeEvent()
+	userEngine := database.NewUser()
 	currentTime := time.Now()
 	currentDate := currentTime.Format("2006-01-01")
 	ireq := i
 
-	te, err := timeEventEngine.GetByAppNameAndDate(i.AppName, currentDate)
+	te, err := userEngine.GetTimeEvent(uid, i.AppName, currentDate)
 	if err != nil && errors.Is(err, database.ErrRecordNotFound) {
 		_, err := timeEventEngine.Create(database.TimeEvent{
 			Date:     currentDate,

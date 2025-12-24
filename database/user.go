@@ -31,3 +31,9 @@ func (*User) GetByName(name string) (user User, err error) {
 	err = db.Model(&User{}).Where("name = ?", name).First(&user).Error
 	return
 }
+
+func (*User) GetTimeEvent(uid uint, appName, date string) (te TimeEvent, err error) {
+	tb := db.Model(&User{}).Preload("User").Where("uId = ?", uid)
+	err = tb.Where("appName = ?", appName).Where("date = ?", date).First(&te).Error
+	return
+}
