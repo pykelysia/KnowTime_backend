@@ -1,6 +1,7 @@
 package middleware
 
 import (
+	"fmt"
 	"knowtime/config"
 	"knowtime/internal"
 	"net/http"
@@ -26,6 +27,7 @@ func GenerateJWT(userID uint) (string, error) {
 		RegisteredClaims: jwt.RegisteredClaims{
 			ExpiresAt: jwt.NewNumericDate(expirationTime),
 			IssuedAt:  jwt.NewNumericDate(time.Now()),
+			Issuer:    config.JwtIssuer,
 			Subject:   "user_token",
 		},
 	}
@@ -47,18 +49,24 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			return
 		}
 
-		tokenString := strings.TrimPrefix(authHeader, "Bearer ")
-		if tokenString == authHeader {
+		parts := strings.Fields(authHeader)
+		if len(parts) != 2 || !strings.EqualFold(parts[0], "Bearer") {
 			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
 				Code:    401,
-				Message: "Bearer token is required",
+				Message: "Authorization header is required",
 			})
 			c.Abort()
 			return
 		}
+		tokenString := parts[1]
 
 		claims := &Claims{}
-		token, err := jwt.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+		// 限制有效算法
+		parser := jwt.NewParser(jwt.WithValidMethods([]string{jwt.SigningMethodHS256.Alg()}))
+		token, err := parser.ParseWithClaims(tokenString, claims, func(token *jwt.Token) (interface{}, error) {
+			if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok || token.Method.Alg() != jwt.SigningMethodHS256.Alg() {
+				return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
+			}
 			return jwtKey, nil
 		})
 
@@ -66,6 +74,24 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
 				Code:    401,
 				Message: "Invalid or expired token",
+			})
+			c.Abort()
+			return
+		}
+
+		if claims.Subject != "user_token" {
+			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
+				Code:    401,
+				Message: "Invalid token subject",
+			})
+			c.Abort()
+			return
+		}
+
+		if config.JwtIssuer != "" && claims.Issuer != config.JwtIssuer {
+			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
+				Code:    401,
+				Message: "Invalid token issuer",
 			})
 			c.Abort()
 			return

@@ -6,5 +6,6 @@ var (
 	BaseURL        = ""
 	APIKey         = ""
 
-	JwtKey = []byte{}
+	JwtIssuer = "knowtime"
+	JwtKey    = []byte{}
 )
