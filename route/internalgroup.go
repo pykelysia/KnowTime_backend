@@ -11,7 +11,7 @@ import (
 func internalUsualMsgPostHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userIDFromJWT, exists := ctx.Get("user_id")
-		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
+		userIDFromParma, err := strconv.Atoi(ctx.Query("u_id"))
 		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {
 			ctx.JSON(http.StatusUnauthorized, BaseMsg{
 				Code:    401,
@@ -51,7 +51,7 @@ func internalUsualMsgPostHandler() gin.HandlerFunc {
 func internalGenerateHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userIDFromJWT, exists := ctx.Get("user_id")
-		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
+		userIDFromParma, err := strconv.Atoi(ctx.Query("u_id"))
 		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {
 			ctx.JSON(http.StatusUnauthorized, BaseMsg{
 				Code:    401,

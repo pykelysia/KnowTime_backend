@@ -32,6 +32,7 @@ func Bind(server *gin.Engine) (err error) {
 		reportGroup := routeV1.Group("/report")
 		{
 			reportGroup.Use(middleware.JWTAuthMiddleware())
+
 			reportGroup.GET("/:date")
 		}
 	}
