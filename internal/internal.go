@@ -60,7 +60,10 @@ func InternalGenerateInternal(i InternalGenerateReq) (InternalGenerateResp, Base
 		}, err
 	}
 
-	output, err := reActEngine.Invoke(context.Background(), map[string]any{})
+	output, err := reActEngine.Invoke(context.Background(), map[string]any{
+		"uid":  i.UId,
+		"date": i.Date,
+	})
 	if err != nil {
 		return InternalGenerateResp{}, BaseMsg{
 			Code:    500,

@@ -10,6 +10,7 @@ func BuildsoftNew(ctx context.Context) (r compose.Runnable[map[string]any, strin
 	const (
 		ReAct           = "ReAct"
 		MessageToString = "MessageToString"
+		InputToMessage  = "InputToMessage"
 	)
 	g := compose.NewGraph[map[string]any, string]()
 	reActKeyOfLambda, err := reAct(ctx)
@@ -18,7 +19,9 @@ func BuildsoftNew(ctx context.Context) (r compose.Runnable[map[string]any, strin
 	}
 	_ = g.AddLambdaNode(ReAct, reActKeyOfLambda)
 	_ = g.AddLambdaNode(MessageToString, compose.InvokableLambda(messageToString))
-	_ = g.AddEdge(compose.START, ReAct)
+	_ = g.AddLambdaNode(InputToMessage, compose.InvokableLambda(inputToMessage))
+	_ = g.AddEdge(compose.START, InputToMessage)
+	_ = g.AddEdge(InputToMessage, ReAct)
 	_ = g.AddEdge(MessageToString, compose.END)
 	_ = g.AddEdge(ReAct, MessageToString)
 	r, err = g.Compile(ctx, compose.WithGraphName("softNew"))

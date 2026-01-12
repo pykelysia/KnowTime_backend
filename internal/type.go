@@ -11,6 +11,7 @@ type (
 		Duration int32  `json:"duration"`
 	}
 	InternalGenerateReq struct {
+		UId uint
 		// format yyyy-mm-dd
 		Date string `json:"data"`
 	}

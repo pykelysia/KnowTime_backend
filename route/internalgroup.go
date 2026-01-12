@@ -70,6 +70,7 @@ func internalGenerateHandler() gin.HandlerFunc {
 			})
 			return
 		}
+		iReq.UId = userIDFromJWT.(uint)
 
 		iResp, b, err := internal.InternalGenerateInternal(iReq)
 		if err != nil {
