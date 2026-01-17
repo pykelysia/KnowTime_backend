@@ -24,7 +24,7 @@ RUN apk --no-cache add ca-certificates tzdata
 ENV TZ=Asia/Shanghai
 
 # 创建非root用户
-RUN addgroup -g 65532 nonroot &&\
+RUN addgroup -g 65532 nonroot && \
     adduser -D -u 65532 -G nonroot nonroot
 
 # 设置工作目录
