@@ -14,6 +14,20 @@ definitions:
       duration:
         type: integer
     type: object
+  route.UserLoginReq:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+    type: object
+  route.UserLogupReq:
+    properties:
+      name:
+        type: string
+      password:
+        type: string
+    type: object
 info:
   contact: {}
 paths:
@@ -76,18 +90,12 @@ paths:
       - application/json
       description: 用户登录获取JWT token
       parameters:
-      - description: 用户名
+      - description: 用户登录信息
         in: body
-        name: name
+        name: loginRequest
         required: true
         schema:
-          type: string
-      - description: 用户密码
-        in: body
-        name: password
-        required: true
-        schema:
-          type: string
+          $ref: '#/definitions/route.UserLoginReq'
       produces:
       - application/json
       responses:
@@ -115,18 +123,12 @@ paths:
       - application/json
       description: 新用户注册
       parameters:
-      - description: 用户名
+      - description: 用户注册信息
         in: body
-        name: name
+        name: registerRequest
         required: true
         schema:
-          type: string
-      - description: 用户密码
-        in: body
-        name: password
-        required: true
-        schema:
-          type: string
+          $ref: '#/definitions/route.UserLogupReq'
       produces:
       - application/json
       responses:

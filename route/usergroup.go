@@ -17,24 +17,13 @@ import (
 //	@Tags			User
 //	@Accept			json
 //	@Produce		json
-//	@Param			name		body		string	true	"用户名"
-//	@Param			password	body		string	true	"用户密码"
-//	@Success		200			{object}	map[string]interface{}
-//	@Failure		400			{object}	map[string]interface{}
-//	@Failure		500			{object}	map[string]interface{}
+//	@Param			loginRequest	body		UserLoginReq	true	"用户登录信息"
+//	@Success		200				{object}	map[string]interface{}
+//	@Failure		400				{object}	map[string]interface{}
+//	@Failure		500				{object}	map[string]interface{}
 //	@Router			/user/login [post]
 func userLoginHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		type (
-			UserLoginReq struct {
-				Name     string `json:"name"`
-				Password string `json:"password"`
-			}
-			LoginData struct {
-				Token string `json:"token"`
-				UId   uint   `json:"u_id"`
-			}
-		)
 		var (
 			req UserLoginReq
 		)
@@ -88,23 +77,13 @@ func userLoginHandler() gin.HandlerFunc {
 //	@Tags			User
 //	@Accept			json
 //	@Produce		json
-//	@Param			name		body		string	true	"用户名"
-//	@Param			password	body		string	true	"用户密码"
-//	@Success		200			{object}	map[string]interface{}
-//	@Failure		400			{object}	map[string]interface{}
-//	@Failure		500			{object}	map[string]interface{}
+//	@Param			registerRequest	body		UserLogupReq	true	"用户注册信息"
+//	@Success		200				{object}	map[string]interface{}
+//	@Failure		400				{object}	map[string]interface{}
+//	@Failure		500				{object}	map[string]interface{}
 //	@Router			/user/logup [post]
 func userLogupHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		type (
-			UserLogupReq struct {
-				Name     string `json:"name"`
-				Password string `json:"password"`
-			}
-			LogupData struct {
-				UId uint `json:"u_id"`
-			}
-		)
 		var (
 			userFromReq UserLogupReq
 		)
@@ -152,12 +131,6 @@ func userLogupHandler() gin.HandlerFunc {
 //	@Router			/user/info/{u_id} [get]
 func userInfo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		type (
-			UserInfoResp struct {
-				Name string `json:"name"`
-				UId  uint   `json:"u_id"`
-			}
-		)
 		userIDFromJWT, exists := ctx.Get("user_id")
 		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
 		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {

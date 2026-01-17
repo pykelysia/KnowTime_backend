@@ -108,21 +108,12 @@ const docTemplate = `{
                 "summary": "用户登录",
                 "parameters": [
                     {
-                        "description": "用户名",
-                        "name": "name",
+                        "description": "用户登录信息",
+                        "name": "loginRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "用户密码",
-                        "name": "password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/route.UserLoginReq"
                         }
                     }
                 ],
@@ -166,21 +157,12 @@ const docTemplate = `{
                 "summary": "用户注册",
                 "parameters": [
                     {
-                        "description": "用户名",
-                        "name": "name",
+                        "description": "用户注册信息",
+                        "name": "registerRequest",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "type": "string"
-                        }
-                    },
-                    {
-                        "description": "用户密码",
-                        "name": "password",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
+                            "$ref": "#/definitions/route.UserLogupReq"
                         }
                     }
                 ],
@@ -374,6 +356,28 @@ const docTemplate = `{
                 },
                 "duration": {
                     "type": "integer"
+                }
+            }
+        },
+        "route.UserLoginReq": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                }
+            }
+        },
+        "route.UserLogupReq": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
                 }
             }
         }

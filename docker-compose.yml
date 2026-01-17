@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  knowtime-backend:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ENV=production
+      - DB_HOST=mysql-db
+    env_file:
+      - .env
+    depends_on:
+      - mysql-db
+    restart: unless-stopped
+    networks:
+      - knowtime-network
+
+  mysql-db:
+    image: mysql:8.0
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: knowtime_db
+      MYSQL_USER: knowtime_user
+      MYSQL_PASSWORD: knowtime_password
+    volumes:
+      - mysql_data:/var/lib/mysql
+    restart: unless-stopped
+    networks:
+      - knowtime-network
+
+networks:
+  knowtime-network:
+    driver: bridge
+
+volumes:
+  mysql_data:
