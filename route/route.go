@@ -8,6 +8,8 @@ import (
 )
 
 func Bind(server *gin.Engine) (err error) {
+	server.GET("/ping", statusHandler())
+
 	userGroup := server.Group("/user")
 	{
 		userGroup.POST("/login", userLoginHandler())
