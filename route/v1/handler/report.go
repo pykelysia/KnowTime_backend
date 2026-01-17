@@ -8,6 +8,22 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// GenerateHandler godoc
+//
+//	@Summary		生成报告
+//	@Description	根据日期生成报告
+//	@Tags			Report
+//	@Accept			json
+//	@Produce		json
+//	@Param			date	path		string							true	"日期 (格式: yyyy-mm-dd)"
+//	@Param			u_id	query		int								true	"用户ID"
+//	@Param			request	body		internal.InternalGenerateReq	true	"请求体"
+//	@Success		200		{object}	map[string]interface{}
+//	@Failure		400		{object}	map[string]interface{}
+//	@Failure		401		{object}	map[string]interface{}
+//	@Failure		500		{object}	map[string]interface{}
+//	@Security		BearerAuth
+//	@Router			/v1/report/{date} [get]
 func GenerateHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userIDFromJWT, exists := ctx.Get("user_id")

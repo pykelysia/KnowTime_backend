@@ -10,6 +10,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// UserLogin godoc
+//
+//	@Summary		用户登录
+//	@Description	用户登录获取JWT token
+//	@Tags			User
+//	@Accept			json
+//	@Produce		json
+//	@Param			name		body		string	true	"用户名"
+//	@Param			password	body		string	true	"用户密码"
+//	@Success		200			{object}	map[string]interface{}
+//	@Failure		400			{object}	map[string]interface{}
+//	@Failure		500			{object}	map[string]interface{}
+//	@Router			/user/login [post]
 func userLoginHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		type (
@@ -68,6 +81,19 @@ func userLoginHandler() gin.HandlerFunc {
 	}
 }
 
+// UserRegister godoc
+//
+//	@Summary		用户注册
+//	@Description	新用户注册
+//	@Tags			User
+//	@Accept			json
+//	@Produce		json
+//	@Param			name		body		string	true	"用户名"
+//	@Param			password	body		string	true	"用户密码"
+//	@Success		200			{object}	map[string]interface{}
+//	@Failure		400			{object}	map[string]interface{}
+//	@Failure		500			{object}	map[string]interface{}
+//	@Router			/user/logup [post]
 func userLogupHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		type (
@@ -112,6 +138,18 @@ func userLogupHandler() gin.HandlerFunc {
 	}
 }
 
+// UserInfo godoc
+//
+//	@Summary		获取用户信息
+//	@Description	获取指定用户的信息
+//	@Tags			User
+//	@Accept			json
+//	@Produce		json
+//	@Param			u_id	path		int	true	"用户ID"
+//	@Success		200		{object}	map[string]interface{}
+//	@Failure		401		{object}	map[string]interface{}
+//	@Failure		404		{object}	map[string]interface{}
+//	@Router			/user/info/{u_id} [get]
 func userInfo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		type (

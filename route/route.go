@@ -4,11 +4,21 @@ import (
 	"knowtime/middleware"
 	"knowtime/route/v1/handler"
 
+	_ "knowtime/docs" // 千万不要忘了导入把你上一步生成的docs
+
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+// @securityDefinitions.apikey	BearerAuth
+// @in							header
+// @name						Authorization
+// @description				Type "Bearer" followed by a space and JWT token
 func Bind(server *gin.Engine) (err error) {
 	server.GET("/ping", statusHandler())
+
+	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	userGroup := server.Group("/user")
 	{
