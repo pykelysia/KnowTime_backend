@@ -26,6 +26,7 @@ func InitDatabase() (err error) {
 		config.Port,
 		config.Name,
 	)
+	pyketools.Infof("Connect DB: %s", dsn)
 	//连接
 	db, err = gorm.Open(mysql.Open(dsn))
 	if err != nil {
@@ -36,6 +37,7 @@ func InitDatabase() (err error) {
 	if err != nil {
 		pyketools.Fatalf("database migrate error: %v", err)
 	}
+	pyketools.Infof("DB Ready!")
 	return
 }
 

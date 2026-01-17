@@ -21,6 +21,7 @@ func main() {
 	server := gin.Default()
 	route.Bind(server)         // 绑定路由
 	err := server.Run(":8080") // 开始监听
+	pyketools.Infof("Gin Server Ready at 8080")
 	if err != nil {
 		pyketools.Fatalf("net start fail: %v", err)
 	}
