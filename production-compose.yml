@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  knowtime-backend:
+    image: ghcr.io/pykelysia/knowtime_backend:main
+    ports:
+      - "3278:8080"
+    environment:
+      - ENV=production
+    restart: unless-stopped
