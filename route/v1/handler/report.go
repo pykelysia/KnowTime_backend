@@ -21,7 +21,7 @@ import (
 //	@Failure		401		{object}	map[string]interface{}
 //	@Failure		500		{object}	map[string]interface{}
 //	@Security		BearerAuth
-//	@Router			/v1/report/{date} [get]
+//	@Router			/v1/report/{date} [post]
 func GenerateHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		userIDFromJWT, exists := ctx.Get("user_id")

@@ -203,7 +203,7 @@ paths:
       tags:
       - Message
   /v1/report/{date}:
-    get:
+    post:
       consumes:
       - application/json
       description: 根据日期生成报告

@@ -268,7 +268,7 @@ const docTemplate = `{
             }
         },
         "/v1/report/{date}": {
-            "get": {
+            "post": {
                 "security": [
                     {
                         "BearerAuth": []
