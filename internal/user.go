@@ -9,17 +9,17 @@ func UserLoginInternal(name, password string) (uid uint, b BaseMsg, err error) {
 	userEngine := database.NewUser()
 	userFromDB, err := userEngine.GetByName(name)
 	if err != nil {
-		return 0, BaseMsg{500, "Failed to found user"}, err
+		return 0, NewBaseMsg(ErrUserNotFound), err
 	}
 	dbhashedPassword := userFromDB.Password
 	match, err := decodeHashString(password, dbhashedPassword)
 	if err != nil {
-		return 0, BaseMsg{500, err.Error()}, err
+		return 0, NewBaseMsg(ErrInternalServer), err
 	}
 	if match == false {
-		return 0, BaseMsg{400, "Password error"}, fmt.Errorf("Password Error")
+		return 0, NewBaseMsg(ErrPasswordError), fmt.Errorf("password error")
 	}
-	return userFromDB.UId, BaseMsg{}, nil
+	return userFromDB.UId, NewBaseMsg(SUCCESS), nil
 }
 
 func UserLogupInternal(name, password string) (uid uint, b BaseMsg, err error) {
@@ -30,7 +30,7 @@ func UserLogupInternal(name, password string) (uid uint, b BaseMsg, err error) {
 	}
 	uid, err = userEngine.Create(&userToDB)
 	if err != nil {
-		return 0, BaseMsg{500, "Could not log up user"}, err
+		return 0, NewBaseMsg(ErrCreateUser), err
 	}
-	return uid, BaseMsg{}, nil
+	return uid, NewBaseMsg(SUCCESS), nil
 }

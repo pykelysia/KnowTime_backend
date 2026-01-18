@@ -41,20 +41,14 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
-			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
-				Code:    401,
-				Message: "Authorization header is required",
-			})
+			c.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			c.Abort()
 			return
 		}
 
 		parts := strings.Fields(authHeader)
 		if len(parts) != 2 || !strings.EqualFold(parts[0], "Bearer") {
-			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
-				Code:    401,
-				Message: "Authorization header is required",
-			})
+			c.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			c.Abort()
 			return
 		}
@@ -71,28 +65,19 @@ func JWTAuthMiddleware() gin.HandlerFunc {
 		})
 
 		if err != nil || !token.Valid {
-			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
-				Code:    401,
-				Message: "Invalid or expired token",
-			})
+			c.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			c.Abort()
 			return
 		}
 
 		if claims.Subject != "user_token" {
-			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
-				Code:    401,
-				Message: "Invalid token subject",
-			})
+			c.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			c.Abort()
 			return
 		}
 
 		if config.JwtIssuer != "" && claims.Issuer != config.JwtIssuer {
-			c.JSON(http.StatusUnauthorized, internal.BaseMsg{
-				Code:    401,
-				Message: "Invalid token issuer",
-			})
+			c.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			c.Abort()
 			return
 		}

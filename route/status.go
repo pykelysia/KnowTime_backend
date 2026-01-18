@@ -2,6 +2,8 @@ package route
 
 import (
 	"knowtime/database"
+	"knowtime/internal"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
@@ -20,18 +22,16 @@ func statusHandler() gin.HandlerFunc {
 	// 检查数据库连接
 	if err := database.InitDatabase(); err != nil {
 		return func(ctx *gin.Context) {
-			ctx.JSON(500, gin.H{
-				"status":   "error",
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrDatabaseConnection, map[string]any{
 				"Gin":      "pong",
 				"Database": err.Error(),
-			})
+			}))
 		}
 	}
 	return func(ctx *gin.Context) {
-		ctx.JSON(200, gin.H{
-			"status":   "ok",
+		ctx.JSON(http.StatusOK, internal.NewResponse(internal.SUCCESS, map[string]any{
 			"Gin":      "pong",
 			"Database": "pong",
-		})
+		}))
 	}
 }

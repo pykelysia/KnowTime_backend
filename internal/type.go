@@ -1,9 +1,17 @@
 package internal
 
 type (
+	// BaseMsg 统一的消息响应结构
 	BaseMsg struct {
-		Code    int    `json:"code"`
-		Message string `json:"message"`
+		ErrCode int    `json:"errcode"` // 错误码，0表示成功
+		Message string `json:"message"` // 错误消息
+	}
+
+	// Response 统一的HTTP响应结构
+	Response struct {
+		ErrCode int    `json:"errcode"`        // 错误码，0表示成功
+		Message string `json:"message"`        // 消息内容
+		Data    any    `json:"data,omitempty"` // 响应数据
 	}
 
 	InternalUsualMsgPostReq struct {

@@ -28,45 +28,27 @@ func userLoginHandler() gin.HandlerFunc {
 			req UserLoginReq
 		)
 		if err := ctx.ShouldBindJSON(&req); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"net_message": BaseMsg{
-					Code:    400,
-					Message: "Invalid request body",
-				},
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrInvalidRequestBody, nil))
 			return
 		}
 
 		uid, b, err := internal.UserLoginInternal(req.Name, req.Password)
 		if err != nil {
-			ctx.JSON(b.Code, gin.H{
-				"net_message": b,
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(b.ErrCode, nil))
 			return
 		}
 
 		// 生成JWT token
 		token, err := middleware.GenerateJWT(uid)
 		if err != nil {
-			ctx.JSON(http.StatusInternalServerError, gin.H{
-				"net_message": BaseMsg{
-					Code:    500,
-					Message: "Failed to generate token",
-				},
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrGenerateToken, nil))
 			return
 		}
 
-		ctx.JSON(http.StatusOK, gin.H{
-			"net_message": BaseMsg{
-				Code:    200,
-				Message: "Login in successful",
-			},
-			"data": LoginData{
-				Token: token,
-				UId:   uid,
-			},
-		})
+		ctx.JSON(http.StatusOK, internal.NewResponse(internal.SUCCESS, LoginData{
+			Token: token,
+			UId:   uid,
+		}))
 	}
 }
 
@@ -88,32 +70,19 @@ func userLogupHandler() gin.HandlerFunc {
 			userFromReq UserLogupReq
 		)
 		if err := ctx.ShouldBindBodyWithJSON(&userFromReq); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				"net_message": BaseMsg{
-					Code:    400,
-					Message: "Invalid request body",
-				},
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrInvalidRequestBody, nil))
 			return
 		}
 
 		uid, b, err := internal.UserLogupInternal(userFromReq.Name, userFromReq.Password)
 		if err != nil {
-			ctx.JSON(b.Code, gin.H{
-				"net_message": b,
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(b.ErrCode, nil))
 			return
 		}
 
-		ctx.JSON(http.StatusOK, gin.H{
-			"net_message": BaseMsg{
-				Code:    200,
-				Message: "Log up successful",
-			},
-			"data": LogupData{
-				UId: uid,
-			},
-		})
+		ctx.JSON(http.StatusOK, internal.NewResponse(internal.SUCCESS, LogupData{
+			UId: uid,
+		}))
 	}
 }
 
@@ -135,34 +104,20 @@ func userInfo() gin.HandlerFunc {
 		userIDFromJWT, exists := ctx.Get("user_id")
 		userIDFromParma, err := strconv.Atoi(ctx.Param("u_id"))
 		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {
-			ctx.JSON(http.StatusUnauthorized, BaseMsg{
-				Code:    401,
-				Message: "User not authenticated",
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			return
 		}
 
 		userEngine := database.NewUser()
 		user, err := userEngine.Get(userIDFromJWT.(uint))
 		if err != nil {
-			ctx.JSON(http.StatusNotFound, gin.H{
-				"net_message": BaseMsg{
-					Code:    404,
-					Message: "User not found",
-				},
-			})
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrUserNotFound, nil))
 			return
 		}
 
-		ctx.JSON(http.StatusOK, gin.H{
-			"net_message": BaseMsg{
-				Code:    200,
-				Message: "User founded",
-			},
-			"data": UserInfoResp{
-				Name: user.Name,
-				UId:  user.UId,
-			},
-		})
+		ctx.JSON(http.StatusOK, internal.NewResponse(internal.SUCCESS, UserInfoResp{
+			Name: user.Name,
+			UId:  user.UId,
+		}))
 	}
 }
