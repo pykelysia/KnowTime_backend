@@ -11,7 +11,8 @@ func UserLoginInternal(name, password string) (uid uint, b BaseMsg, err error) {
 	if err != nil {
 		return 0, BaseMsg{500, "Failed to found user"}, err
 	}
-	match, err := decodeHashString(userFromDB.Password, password)
+	dbhashedPassword := userFromDB.Password
+	match, err := decodeHashString(password, dbhashedPassword)
 	if err != nil {
 		return 0, BaseMsg{500, err.Error()}, err
 	}
