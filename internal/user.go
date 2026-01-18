@@ -13,7 +13,7 @@ func UserLoginInternal(name, password string) (uid uint, b BaseMsg, err error) {
 	}
 	match, err := decodeHashString(userFromDB.Password, password)
 	if err != nil {
-		return 0, BaseMsg{500, "DB Mal-format"}, err
+		return 0, BaseMsg{500, err.Error()}, err
 	}
 	if match == false {
 		return 0, BaseMsg{400, "Password error"}, fmt.Errorf("Password Error")
