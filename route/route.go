@@ -39,7 +39,7 @@ func Bind(server *gin.Engine) (err error) {
 		{
 			reportGroup.Use(middleware.JWTAuthMiddleware())
 
-			reportGroup.GET("/:date", handler.GenerateHandler())
+			reportGroup.POST("/:date", handler.GenerateHandler())
 		}
 	}
 
