@@ -11,15 +11,6 @@ import (
 	"golang.org/x/crypto/argon2"
 )
 
-// 使用Argon2算法对密码进行哈希处理
-type params struct {
-	memory      uint32
-	iterations  uint32
-	parallelism uint8
-	saltLength  uint32
-	keyLength   uint32
-}
-
 // 创建盐值
 func generateRandomBytes(n uint32) ([]byte, error) {
 	b := make([]byte, n)
@@ -51,7 +42,7 @@ func hashString(password string) string {
 	b64Salt := base64.RawStdEncoding.EncodeToString(salt)
 	b64Hash := base64.RawStdEncoding.EncodeToString(hash)
 	// 返回整合字符串
-	encodedHash := fmt.Sprintf("$argon2id$v=%d$m=%d$t=%d$p=%d$%s$%s", argon2.Version, p.memory, p.iterations, p.parallelism, b64Salt, b64Hash)
+	encodedHash := fmt.Sprintf("ktargon2id$v=%d$m=%d$t=%d$p=%d$%s$%s", argon2.Version, p.memory, p.iterations, p.parallelism, b64Salt, b64Hash)
 	return encodedHash
 }
 
@@ -73,7 +64,7 @@ func decodeHash(encodedHash string) (p *params, salt, hash []byte, err error) {
 	}
 	// 解析参数
 	p = &params{}
-	_, err = fmt.Sscanf(vals[3], "m=%d,t=%d,p=%d", &p.memory, &p.iterations, &p.parallelism)
+	_, err = fmt.Sscanf(vals[3], "m=%d$t=%d$p=%d", &p.memory, &p.iterations, &p.parallelism)
 	if err != nil {
 		return nil, nil, nil, err
 	}

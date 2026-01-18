@@ -19,3 +19,12 @@ type (
 		Output string `json:"output"`
 	}
 )
+
+// 使用Argon2算法对密码进行哈希处理
+type params struct {
+	memory      uint32
+	iterations  uint32
+	parallelism uint8
+	saltLength  uint32
+	keyLength   uint32
+}
