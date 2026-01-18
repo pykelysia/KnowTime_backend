@@ -59,7 +59,7 @@ func decodeHash(encodedHash string) (p *params, salt, hash []byte, err error) {
 	}
 	// 先验证版本是否匹配
 	var version int
-	_, err = fmt.Sscanf(vals[2], "v=%d", &version)
+	_, err = fmt.Sscanf(vals[1], "v=%d", &version)
 	if err != nil {
 		return nil, nil, nil, err
 	}
@@ -68,18 +68,20 @@ func decodeHash(encodedHash string) (p *params, salt, hash []byte, err error) {
 	}
 	// 解析参数
 	p = &params{}
-	_, err = fmt.Sscanf(vals[3], "m=%d$t=%d$p=%d", &p.memory, &p.iterations, &p.parallelism)
+	_, err = fmt.Sscanf(vals[2], "m=%d", &p.memory)
+	_, err = fmt.Sscanf(vals[3], "t=%d", &p.iterations)
+	_, err = fmt.Sscanf(vals[4], "p=%d", &p.parallelism)
 	if err != nil {
 		return nil, nil, nil, err
 	}
 	// 解码盐值
-	salt, err = base64.RawStdEncoding.Strict().DecodeString(vals[4])
+	salt, err = base64.RawStdEncoding.Strict().DecodeString(vals[5])
 	if err != nil {
 		return nil, nil, nil, err
 	}
 	p.saltLength = uint32(len(salt))
 	// 解码哈希值
-	hash, err = base64.RawStdEncoding.Strict().DecodeString(vals[5])
+	hash, err = base64.RawStdEncoding.Strict().DecodeString(vals[6])
 	if err != nil {
 		return nil, nil, nil, err
 	}
