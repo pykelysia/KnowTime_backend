@@ -14,7 +14,10 @@ import (
 // @description				提供所有API接口的说明文档
 // @contact.name				吕舒君
 // @contact.email				Lvshujun0918@163.com
-// @securityDefinitions.basic	BasicAuth
+// @securityDefinitions.apikey	BearerAuth
+// @in							header
+// @name						Authorization
+// @description				Type "Bearer" followed by a space and JWT token
 func main() {
 
 	// 加载环境
