@@ -15,7 +15,8 @@ import (
 //	@Tags			Report
 //	@Accept			json
 //	@Produce		json
-//	@Param			request	body		internal.InternalGenerateReq	true	"请求体"
+//	@Param			u_id	query		int		true	"用户ID"
+//	@Param			date	path		string	true	"日期 (格式: yyyy-mm-dd)"
 //	@Success		200		{object}	map[string]interface{}
 //	@Failure		400		{object}	map[string]interface{}
 //	@Failure		401		{object}	map[string]interface{}
@@ -32,11 +33,8 @@ func GenerateHandler() gin.HandlerFunc {
 		}
 
 		var iReq internal.InternalGenerateReq
-		if err := ctx.ShouldBindJSON(&iReq); err != nil {
-			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrInvalidRequestBody, nil))
-			return
-		}
 		iReq.UId = userIDFromJWT.(uint)
+		iReq.Date = ctx.Param("date")
 
 		iResp, b, err := internal.InternalGenerateInternal(iReq)
 		if err != nil {

@@ -287,13 +287,18 @@ const docTemplate = `{
                 "summary": "生成报告",
                 "parameters": [
                     {
-                        "description": "请求体",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/internal.InternalGenerateReq"
-                        }
+                        "type": "integer",
+                        "description": "用户ID",
+                        "name": "u_id",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "日期 (格式: yyyy-mm-dd)",
+                        "name": "date",
+                        "in": "path",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -330,18 +335,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "internal.InternalGenerateReq": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "description": "format yyyy-mm-dd",
-                    "type": "string"
-                },
-                "uid": {
-                    "type": "integer"
-                }
-            }
-        },
         "internal.InternalUsualMsgPostReq": {
             "type": "object",
             "properties": {

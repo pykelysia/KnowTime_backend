@@ -1,12 +1,4 @@
 definitions:
-  internal.InternalGenerateReq:
-    properties:
-      data:
-        description: format yyyy-mm-dd
-        type: string
-      uid:
-        type: integer
-    type: object
   internal.InternalUsualMsgPostReq:
     properties:
       app_name:
@@ -208,12 +200,16 @@ paths:
       - application/json
       description: 根据日期生成报告
       parameters:
-      - description: 请求体
-        in: body
-        name: request
+      - description: 用户ID
+        in: query
+        name: u_id
         required: true
-        schema:
-          $ref: '#/definitions/internal.InternalGenerateReq'
+        type: integer
+      - description: '日期 (格式: yyyy-mm-dd)'
+        in: path
+        name: date
+        required: true
+        type: string
       produces:
       - application/json
       responses:
