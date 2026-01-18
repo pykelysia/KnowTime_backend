@@ -50,8 +50,12 @@ func hashString(password string) string {
 func decodeHash(encodedHash string) (p *params, salt, hash []byte, err error) {
 	vals := strings.Split(encodedHash, "$")
 	// 判断字段总数
-	if len(vals) != 6 {
+	if len(vals) != 7 {
 		return nil, nil, nil, errors.New("invalid hash format")
+	}
+	// 验证哈希类型
+	if vals[0] != "ktargon2id" {
+		return nil, nil, nil, errors.New("unsupported hash type")
 	}
 	// 先验证版本是否匹配
 	var version int
