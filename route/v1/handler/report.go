@@ -15,8 +15,6 @@ import (
 //	@Tags			Report
 //	@Accept			json
 //	@Produce		json
-//	@Param			date	path		string							true	"日期 (格式: yyyy-mm-dd)"
-//	@Param			u_id	query		int								true	"用户ID"
 //	@Param			request	body		internal.InternalGenerateReq	true	"请求体"
 //	@Success		200		{object}	map[string]interface{}
 //	@Failure		400		{object}	map[string]interface{}
