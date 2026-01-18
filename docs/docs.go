@@ -287,20 +287,6 @@ const docTemplate = `{
                 "summary": "生成报告",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "日期 (格式: yyyy-mm-dd)",
-                        "name": "date",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "type": "integer",
-                        "description": "用户ID",
-                        "name": "u_id",
-                        "in": "query",
-                        "required": true
-                    },
-                    {
                         "description": "请求体",
                         "name": "request",
                         "in": "body",
