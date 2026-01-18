@@ -128,6 +128,7 @@ func userLogupHandler() gin.HandlerFunc {
 //	@Success		200		{object}	map[string]interface{}
 //	@Failure		401		{object}	map[string]interface{}
 //	@Failure		404		{object}	map[string]interface{}
+//	@Security		BearerAuth
 //	@Router			/user/info/{u_id} [get]
 func userInfo() gin.HandlerFunc {
 	return func(ctx *gin.Context) {

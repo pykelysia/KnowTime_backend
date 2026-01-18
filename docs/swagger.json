@@ -1,7 +1,13 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "提供所有API接口的说明文档",
+        "title": "知时后端API文档",
+        "contact": {
+            "name": "吕舒君",
+            "email": "Lvshujun0918@163.com"
+        },
+        "version": "1.0"
     },
     "paths": {
         "/ping": {
@@ -37,6 +43,11 @@
         },
         "/user/info/{u_id}": {
             "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
                 "description": "获取指定用户的信息",
                 "consumes": [
                     "application/json"
@@ -369,6 +380,11 @@
                     "type": "string"
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "BasicAuth": {
+            "type": "basic"
         }
     }
 }

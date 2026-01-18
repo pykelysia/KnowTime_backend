@@ -9,6 +9,12 @@ import (
 	"github.com/pykelysia/pyketools"
 )
 
+// @title						知时后端API文档
+// @version					1.0
+// @description				提供所有API接口的说明文档
+// @contact.name				吕舒君
+// @contact.email				Lvshujun0918@163.com
+// @securityDefinitions.basic	BasicAuth
 func main() {
 
 	// 加载环境

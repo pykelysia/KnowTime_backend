@@ -29,7 +29,12 @@ definitions:
         type: string
     type: object
 info:
-  contact: {}
+  contact:
+    email: Lvshujun0918@163.com
+    name: 吕舒君
+  description: 提供所有API接口的说明文档
+  title: 知时后端API文档
+  version: "1.0"
 paths:
   /ping:
     get:
@@ -81,6 +86,8 @@ paths:
           schema:
             additionalProperties: true
             type: object
+      security:
+      - BearerAuth: []
       summary: 获取用户信息
       tags:
       - User
@@ -245,4 +252,7 @@ paths:
       summary: 生成报告
       tags:
       - Report
+securityDefinitions:
+  BasicAuth:
+    type: basic
 swagger: "2.0"
