@@ -14,7 +14,7 @@ func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg,
 	//获取TimeEvent表实例
 	timeEventEngine := database.NewTimeEvent()
 	currentTime := time.Now()
-	currentDate := currentTime.Format("2006-01-01")
+	currentDate := currentTime.Format("2006-01-02")
 	ireq := i
 	//先查记录是否存在
 	te, err := timeEventEngine.Get(uid, i.AppName, currentDate)
