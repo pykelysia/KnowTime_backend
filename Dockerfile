@@ -16,8 +16,8 @@ ARG GIT_COMMIT=unknown
 ARG BUILD_TIME=unknown
 ARG VERSION=1.0.0
 
-# 构建应用程序并注入版本信息
-RUN go build -ldflags "-X 'knowtime/internal.GitCommit=${GIT_COMMIT}' -X 'knowtime/internal.BuildTime=${BUILD_TIME}' -X 'knowtime/internal.Version=${VERSION}'" -o knowtime .
+# 构建应用程序并注入版本信息（禁用CGO并显式目标为Linux以生成适用于Alpine的静态二进制）
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags "-X 'knowtime/internal.GitCommit=${GIT_COMMIT}' -X 'knowtime/internal.BuildTime=${BUILD_TIME}' -X 'knowtime/internal.Version=${VERSION}'" -o knowtime .
 
 # 使用轻量级Alpine镜像作为最终镜像
 FROM alpine:latest
