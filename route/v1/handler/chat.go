@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ChatHandle() gin.HandlerFunc {
+func ChatHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var iReq internal.InternalChatReq
 		if err := ctx.ShouldBindJSON(&iReq); err != nil {
