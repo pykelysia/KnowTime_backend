@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"knowtime/database"
+	"knowtime/internal/chat"
 	"knowtime/internal/generate"
 	"time"
 )
@@ -56,6 +57,27 @@ func InternalGenerateInternal(i InternalGenerateReq) (InternalGenerateResp, Base
 	}
 
 	return InternalGenerateResp{
+		Output: output,
+	}, NewBaseMsg(SUCCESS), nil
+}
+
+func InternalChatInternal(i InternalChatReq) (InternalChatResp, BaseMsg, error) {
+	reActEngine, err := chat.Buildchat(context.Background())
+	if err != nil {
+		return InternalChatResp{}, NewBaseMsg(ErrBuildAgent), err
+	}
+	// 往整个记录里添加一条新消息，但不修改传入的 History 切片
+	msg := make(chat.Messages, len(i.History)+1)
+	copy(msg, i.History)
+	msg[len(i.History)] = chat.Message{
+		Role:    "user",
+		Content: i.Message,
+	}
+	output, err := reActEngine.Invoke(context.Background(), msg)
+	if err != nil {
+		return InternalChatResp{}, NewBaseMsg(ErrCallAgent), err
+	}
+	return InternalChatResp{
 		Output: output,
 	}, NewBaseMsg(SUCCESS), nil
 }
