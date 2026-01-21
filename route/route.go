@@ -42,6 +42,12 @@ func Bind(server *gin.Engine) (err error) {
 
 			reportGroup.POST("/:date", handler.GenerateHandler())
 		}
+		chatGroup := routeV1.Group("/chat")
+		{
+			chatGroup.Use(middleware.JWTAuthMiddleware())
+
+			chatGroup.POST("/chat", handler.ChatHandle())
+		}
 	}
 
 	return

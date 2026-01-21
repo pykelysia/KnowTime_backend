@@ -1,5 +1,7 @@
 package internal
 
+import "knowtime/internal/chat"
+
 type (
 	// BaseMsg 统一的消息响应结构
 	BaseMsg struct {
@@ -23,7 +25,15 @@ type (
 		// format yyyy-mm-dd
 		Date string `json:"data"`
 	}
+	InternalChatReq struct {
+		UId     uint
+		History chat.Messages `json:"history"`
+		Message string        `json:"message"`
+	}
 	InternalGenerateResp struct {
+		Output string `json:"output"`
+	}
+	InternalChatResp struct {
 		Output string `json:"output"`
 	}
 )
