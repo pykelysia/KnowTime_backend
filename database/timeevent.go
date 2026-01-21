@@ -23,7 +23,7 @@ func (*TimeEvent) Update(te *TimeEvent) (err error) {
 }
 
 func (*TimeEvent) Gets(uid uint, date string) (tes []TimeEvent, err error) {
-	err = db.Model(&TimeEvent{}).Where("uIdRefer = ?", uid).Where("date = ?", date).Find(tes).Error
+	err = db.Model(&TimeEvent{}).Where("uIdRefer = ?", uid).Where("date = ?", date).Find(&tes).Error
 	return
 }
 
