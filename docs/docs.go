@@ -146,6 +146,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/v1/chat": {
+            "post": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "description": "对于登录用户，使用此接口与AI进行对话，始终返回HTTP 200，错误通过响应体中的errcode判断",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "chat"
+                ],
+                "summary": "与AI对话",
+                "parameters": [
+                    {
+                        "description": "对话上下文请求体",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/internal.InternalChatReq"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "对话返回响应，errcode=0表示成功",
+                        "schema": {
+                            "$ref": "#/definitions/internal.Response"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/msg/post": {
             "post": {
                 "security": [
