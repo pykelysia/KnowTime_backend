@@ -3,6 +3,7 @@ package main
 import (
 	"knowtime/config"
 	"knowtime/database"
+	"knowtime/internal"
 	"knowtime/route"
 
 	"github.com/gin-gonic/gin"
@@ -19,6 +20,8 @@ import (
 // @name						Authorization
 // @description				Type "Bearer" followed by a space and JWT token
 func main() {
+	// 打印构建信息
+	internal.PrintBuildInfo()
 
 	// 加载环境
 	config.LoadEnv("./.env")
