@@ -17,6 +17,7 @@ import (
 //	@Param			u_id	query		int							true	"用户ID"
 //	@Param			request	body		internal.InternalChatReq	true	"对话上下文请求体"
 //	@Success		200		{object}	internal.Response			"对话返回响应，errcode=0表示成功"
+//	@Security		BearerAuth
 func ChatHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var iReq internal.InternalChatReq
