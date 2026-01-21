@@ -35,7 +35,7 @@ func GenerateHandler() gin.HandlerFunc {
 
 		iResp, b, err := internal.InternalGenerateInternal(iReq)
 		if err != nil {
-			ctx.JSON(http.StatusOK, internal.NewResponse(b.ErrCode, nil))
+			ctx.JSON(http.StatusOK, internal.NewResponse(b.ErrCode, err.Error()))
 			return
 		}
 
