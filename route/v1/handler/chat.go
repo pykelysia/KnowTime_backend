@@ -7,6 +7,17 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// ChatHandle handles chat requests for an authenticated user.
+//
+// @Summary      Chat with the service
+// @Description  Processes a chat request for the authenticated user identified by the JWT and `u_id` query parameter.
+// @Tags         chat
+// @Accept       json
+// @Produce      json
+// @Param        u_id   query     int     true  "User ID"
+// @Param        request body     internal.InternalChatReq true "Chat request payload"
+// @Success      200    {object}  internal.Response "Successful chat response"
+// @Failure      200    {object}  internal.Response "Error response with appropriate error code"
 func ChatHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var iReq internal.InternalChatReq
