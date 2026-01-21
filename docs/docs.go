@@ -238,6 +238,34 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "chat.Message": {
+            "type": "object",
+            "properties": {
+                "content": {
+                    "type": "string"
+                },
+                "role": {
+                    "type": "string"
+                }
+            }
+        },
+        "internal.InternalChatReq": {
+            "type": "object",
+            "properties": {
+                "history": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/chat.Message"
+                    }
+                },
+                "message": {
+                    "type": "string"
+                },
+                "uid": {
+                    "type": "integer"
+                }
+            }
+        },
         "internal.InternalUsualMsgPostReq": {
             "type": "object",
             "properties": {

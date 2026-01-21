@@ -1,4 +1,22 @@
 definitions:
+  chat.Message:
+    properties:
+      content:
+        type: string
+      role:
+        type: string
+    type: object
+  internal.InternalChatReq:
+    properties:
+      history:
+        items:
+          $ref: '#/definitions/chat.Message'
+        type: array
+      message:
+        type: string
+      uid:
+        type: integer
+    type: object
   internal.InternalUsualMsgPostReq:
     properties:
       app_name:
