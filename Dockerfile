@@ -11,8 +11,13 @@ RUN go mod download
 # 复制源代码
 COPY . .
 
-# 构建应用程序
-RUN CGO_ENABLED=0 GOOS=linux go build -o knowtime .
+# 设置构建参数
+ARG GIT_COMMIT=unknown
+ARG BUILD_TIME=unknown
+ARG VERSION=1.0.0
+
+# 构建应用程序并注入版本信息
+RUN go build -ldflags "-X 'knowtime/internal.GitCommit=${GIT_COMMIT}' -X 'knowtime/internal.BuildTime=${BUILD_TIME}' -X 'knowtime/internal.Version=${VERSION}'" -o knowtime .
 
 # 使用轻量级Alpine镜像作为最终镜像
 FROM alpine:latest
