@@ -11,16 +11,13 @@ import (
 // GenerateHandler godoc
 //
 //	@Summary		生成报告
-//	@Description	根据日期生成报告
+//	@Description	根据日期生成报告，始终返回HTTP 200，错误通过响应体中的errcode判断
 //	@Tags			Report
 //	@Accept			json
 //	@Produce		json
-//	@Param			u_id	query		int		true	"用户ID"
-//	@Param			date	path		string	true	"日期 (格式: yyyy-mm-dd)"
-//	@Success		200		{object}	map[string]interface{}
-//	@Failure		400		{object}	map[string]interface{}
-//	@Failure		401		{object}	map[string]interface{}
-//	@Failure		500		{object}	map[string]interface{}
+//	@Param			u_id	query		int					true	"用户ID"
+//	@Param			date	path		string				true	"日期 (格式: yyyy-mm-dd)"
+//	@Success		200		{object}	internal.Response	"报告生成响应，errcode=0表示成功"
 //	@Security		BearerAuth
 //	@Router			/v1/report/{date} [post]
 func GenerateHandler() gin.HandlerFunc {

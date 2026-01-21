@@ -6,6 +6,17 @@ definitions:
       duration:
         type: integer
     type: object
+  internal.Response:
+    properties:
+      data:
+        description: 响应数据
+      errcode:
+        description: 错误码，0表示成功
+        type: integer
+      message:
+        description: 消息内容
+        type: string
+    type: object
   route.UserLoginReq:
     properties:
       name:
@@ -32,20 +43,14 @@ paths:
     get:
       consumes:
       - application/json
-      description: 检查Gin和数据库服务的状态
+      description: 检查Gin和数据库服务的状态，始终返回HTTP 200，错误通过响应体中的errcode判断
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 服务状态检查结果，errcode=0表示成功
           schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/internal.Response'
       summary: 获取服务状态
       tags:
       - Status
@@ -53,7 +58,7 @@ paths:
     get:
       consumes:
       - application/json
-      description: 获取指定用户的信息
+      description: 获取指定用户的信息，始终返回HTTP 200，错误通过响应体中的errcode判断
       parameters:
       - description: 用户ID
         in: path
@@ -64,20 +69,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 获取用户信息响应，errcode=0表示成功
           schema:
-            additionalProperties: true
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            additionalProperties: true
-            type: object
-        "404":
-          description: Not Found
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/internal.Response'
       security:
       - BearerAuth: []
       summary: 获取用户信息
@@ -87,7 +81,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: 用户登录获取JWT token
+      description: 用户登录获取JWT token，始终返回HTTP 200，错误通过响应体中的errcode判断
       parameters:
       - description: 用户登录信息
         in: body
@@ -99,20 +93,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 登录响应，errcode=0表示成功
           schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/internal.Response'
       summary: 用户登录
       tags:
       - User
@@ -120,7 +103,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: 新用户注册
+      description: 新用户注册，始终返回HTTP 200，错误通过响应体中的errcode判断
       parameters:
       - description: 用户注册信息
         in: body
@@ -132,20 +115,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 注册响应，errcode=0表示成功
           schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/internal.Response'
       summary: 用户注册
       tags:
       - User
@@ -153,7 +125,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: 提交一条消息记录
+      description: 提交一条消息记录，始终返回HTTP 200，错误通过响应体中的errcode判断
       parameters:
       - description: 用户ID
         in: query
@@ -170,25 +142,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 消息发布响应，errcode=0表示成功
           schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/internal.Response'
       security:
       - BearerAuth: []
       summary: 发布消息
@@ -198,7 +154,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: 根据日期生成报告
+      description: 根据日期生成报告，始终返回HTTP 200，错误通过响应体中的errcode判断
       parameters:
       - description: 用户ID
         in: query
@@ -214,25 +170,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: 报告生成响应，errcode=0表示成功
           schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties: true
-            type: object
-        "401":
-          description: Unauthorized
-          schema:
-            additionalProperties: true
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/internal.Response'
       security:
       - BearerAuth: []
       summary: 生成报告

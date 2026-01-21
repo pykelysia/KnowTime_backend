@@ -13,14 +13,12 @@ import (
 // UserLogin godoc
 //
 //	@Summary		用户登录
-//	@Description	用户登录获取JWT token
+//	@Description	用户登录获取JWT token，始终返回HTTP 200，错误通过响应体中的errcode判断
 //	@Tags			User
 //	@Accept			json
 //	@Produce		json
-//	@Param			loginRequest	body		UserLoginReq	true	"用户登录信息"
-//	@Success		200				{object}	map[string]interface{}
-//	@Failure		400				{object}	map[string]interface{}
-//	@Failure		500				{object}	map[string]interface{}
+//	@Param			loginRequest	body		UserLoginReq		true	"用户登录信息"
+//	@Success		200				{object}	internal.Response	"登录响应，errcode=0表示成功"
 //	@Router			/user/login [post]
 func userLoginHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -55,14 +53,12 @@ func userLoginHandler() gin.HandlerFunc {
 // UserRegister godoc
 //
 //	@Summary		用户注册
-//	@Description	新用户注册
+//	@Description	新用户注册，始终返回HTTP 200，错误通过响应体中的errcode判断
 //	@Tags			User
 //	@Accept			json
 //	@Produce		json
-//	@Param			registerRequest	body		UserLogupReq	true	"用户注册信息"
-//	@Success		200				{object}	map[string]interface{}
-//	@Failure		400				{object}	map[string]interface{}
-//	@Failure		500				{object}	map[string]interface{}
+//	@Param			registerRequest	body		UserLogupReq		true	"用户注册信息"
+//	@Success		200				{object}	internal.Response	"注册响应，errcode=0表示成功"
 //	@Router			/user/logup [post]
 func userLogupHandler() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
@@ -89,14 +85,12 @@ func userLogupHandler() gin.HandlerFunc {
 // UserInfo godoc
 //
 //	@Summary		获取用户信息
-//	@Description	获取指定用户的信息
+//	@Description	获取指定用户的信息，始终返回HTTP 200，错误通过响应体中的errcode判断
 //	@Tags			User
 //	@Accept			json
 //	@Produce		json
-//	@Param			u_id	path		int	true	"用户ID"
-//	@Success		200		{object}	map[string]interface{}
-//	@Failure		401		{object}	map[string]interface{}
-//	@Failure		404		{object}	map[string]interface{}
+//	@Param			u_id	path		int					true	"用户ID"
+//	@Success		200		{object}	internal.Response	"获取用户信息响应，errcode=0表示成功"
 //	@Security		BearerAuth
 //	@Router			/user/info/{u_id} [get]
 func userInfo() gin.HandlerFunc {

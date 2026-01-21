@@ -11,12 +11,11 @@ import (
 // GetStatus godoc
 //
 //	@Summary		获取服务状态
-//	@Description	检查Gin和数据库服务的状态
+//	@Description	检查Gin和数据库服务的状态，始终返回HTTP 200，错误通过响应体中的errcode判断
 //	@Tags			Status
 //	@Accept			json
 //	@Produce		json
-//	@Success		200	{object}	map[string]interface{}
-//	@Failure		500	{object}	map[string]interface{}
+//	@Success		200	{object}	internal.Response	"服务状态检查结果，errcode=0表示成功"
 //	@Router			/ping [get]
 func statusHandler() gin.HandlerFunc {
 	// 检查数据库连接

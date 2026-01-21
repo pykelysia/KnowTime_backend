@@ -11,16 +11,13 @@ import (
 // MsgPostHandler godoc
 //
 //	@Summary		发布消息
-//	@Description	提交一条消息记录
+//	@Description	提交一条消息记录，始终返回HTTP 200，错误通过响应体中的errcode判断
 //	@Tags			Message
 //	@Accept			json
 //	@Produce		json
 //	@Param			u_id	query		int									true	"用户ID"
 //	@Param			message	body		internal.InternalUsualMsgPostReq	true	"消息内容"
-//	@Success		200		{object}	map[string]interface{}
-//	@Failure		400		{object}	map[string]interface{}
-//	@Failure		401		{object}	map[string]interface{}
-//	@Failure		500		{object}	map[string]interface{}
+//	@Success		200		{object}	internal.Response					"消息发布响应，errcode=0表示成功"
 //	@Security		BearerAuth
 //	@Router			/v1/msg/post [post]
 func MsgPostHandler() gin.HandlerFunc {

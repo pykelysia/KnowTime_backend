@@ -20,7 +20,7 @@ const docTemplate = `{
     "paths": {
         "/ping": {
             "get": {
-                "description": "检查Gin和数据库服务的状态",
+                "description": "检查Gin和数据库服务的状态，始终返回HTTP 200，错误通过响应体中的errcode判断",
                 "consumes": [
                     "application/json"
                 ],
@@ -33,17 +33,9 @@ const docTemplate = `{
                 "summary": "获取服务状态",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "服务状态检查结果，errcode=0表示成功",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/internal.Response"
                         }
                     }
                 }
@@ -56,7 +48,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "获取指定用户的信息",
+                "description": "获取指定用户的信息，始终返回HTTP 200，错误通过响应体中的errcode判断",
                 "consumes": [
                     "application/json"
                 ],
@@ -78,24 +70,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "获取用户信息响应，errcode=0表示成功",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/internal.Response"
                         }
                     }
                 }
@@ -103,7 +80,7 @@ const docTemplate = `{
         },
         "/user/login": {
             "post": {
-                "description": "用户登录获取JWT token",
+                "description": "用户登录获取JWT token，始终返回HTTP 200，错误通过响应体中的errcode判断",
                 "consumes": [
                     "application/json"
                 ],
@@ -127,24 +104,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "登录响应，errcode=0表示成功",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/internal.Response"
                         }
                     }
                 }
@@ -152,7 +114,7 @@ const docTemplate = `{
         },
         "/user/logup": {
             "post": {
-                "description": "新用户注册",
+                "description": "新用户注册，始终返回HTTP 200，错误通过响应体中的errcode判断",
                 "consumes": [
                     "application/json"
                 ],
@@ -176,24 +138,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "注册响应，errcode=0表示成功",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/internal.Response"
                         }
                     }
                 }
@@ -206,7 +153,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "提交一条消息记录",
+                "description": "提交一条消息记录，始终返回HTTP 200，错误通过响应体中的errcode判断",
                 "consumes": [
                     "application/json"
                 ],
@@ -237,31 +184,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "消息发布响应，errcode=0表示成功",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/internal.Response"
                         }
                     }
                 }
@@ -274,7 +199,7 @@ const docTemplate = `{
                         "BearerAuth": []
                     }
                 ],
-                "description": "根据日期生成报告",
+                "description": "根据日期生成报告，始终返回HTTP 200，错误通过响应体中的errcode判断",
                 "consumes": [
                     "application/json"
                 ],
@@ -303,31 +228,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "报告生成响应，errcode=0表示成功",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/internal.Response"
                         }
                     }
                 }
@@ -343,6 +246,22 @@ const docTemplate = `{
                 },
                 "duration": {
                     "type": "integer"
+                }
+            }
+        },
+        "internal.Response": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "description": "响应数据"
+                },
+                "errcode": {
+                    "description": "错误码，0表示成功",
+                    "type": "integer"
+                },
+                "message": {
+                    "description": "消息内容",
+                    "type": "string"
                 }
             }
         },
