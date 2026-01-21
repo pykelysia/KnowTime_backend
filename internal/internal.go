@@ -9,13 +9,15 @@ import (
 )
 
 func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg, error) {
+	//获取TimeEvent表实例
 	timeEventEngine := database.NewTimeEvent()
 	currentTime := time.Now()
 	currentDate := currentTime.Format("2006-01-01")
 	ireq := i
-
+	//先查记录是否存在
 	te, err := timeEventEngine.Get(uid, i.AppName, currentDate)
 	if err != nil && errors.Is(err, database.ErrRecordNotFound) {
+		//记录不存在，创建新记录
 		_, err := timeEventEngine.Create(&database.TimeEvent{
 			Date:     currentDate,
 			AppName:  ireq.AppName,
@@ -28,7 +30,7 @@ func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg,
 	} else if err != nil {
 		return NewBaseMsg(ErrDatabaseError), err
 	}
-
+	//记录存在，更新记录
 	te, err = timeEventEngine.Get(uid, i.AppName, currentDate)
 	te.Duration += int(ireq.Duration)
 	err = timeEventEngine.Update(&te)

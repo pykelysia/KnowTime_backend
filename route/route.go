@@ -16,17 +16,18 @@ import (
 // @name						Authorization
 // @description				Type "Bearer" followed by a space and JWT token
 func Bind(server *gin.Engine) (err error) {
+	//服务器状态
 	server.GET("/ping", statusHandler())
-
+	//Swagger文档
 	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
+	//用户相关路由
 	userGroup := server.Group("/user")
 	{
 		userGroup.POST("/login", userLoginHandler())
 		userGroup.POST("/logup", userLogupHandler())
 		userGroup.GET("/info/:u_id", middleware.JWTAuthMiddleware(), userInfo())
 	}
-
+	//核心路由
 	routeV1 := server.Group("/v1")
 	{
 		msgGroup := routeV1.Group("/msg")
