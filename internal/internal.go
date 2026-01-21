@@ -3,6 +3,7 @@ package internal
 import (
 	"context"
 	"errors"
+	"fmt"
 	"knowtime/database"
 	"knowtime/internal/chat"
 	"knowtime/internal/generate"
@@ -53,6 +54,7 @@ func InternalGenerateInternal(i InternalGenerateReq) (InternalGenerateResp, Base
 		"date": i.Date,
 	})
 	if err != nil {
+		fmt.Printf("%s", err.Error())
 		return InternalGenerateResp{}, NewBaseMsg(ErrCallAgent), err
 	}
 
