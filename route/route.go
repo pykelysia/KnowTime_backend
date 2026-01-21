@@ -46,7 +46,7 @@ func Bind(server *gin.Engine) (err error) {
 		{
 			chatGroup.Use(middleware.JWTAuthMiddleware())
 
-			chatGroup.POST("/chat", handler.ChatHandle())
+			chatGroup.POST("", handler.ChatHandle())
 		}
 	}
 
