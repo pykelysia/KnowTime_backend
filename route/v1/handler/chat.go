@@ -3,23 +3,22 @@ package handler
 import (
 	"knowtime/internal"
 	"net/http"
-	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
 
 func ChatHandle() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
-		userIDFromJWT, exists := ctx.Get("user_id")
-		userIDFromParma, err := strconv.Atoi(ctx.Query("u_id"))
-		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) || err != nil {
-			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
-			return
-		}
-
 		var iReq internal.InternalChatReq
 		if err := ctx.ShouldBindJSON(&iReq); err != nil {
 			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrInvalidRequestBody, nil))
+			return
+		}
+
+		userIDFromJWT, exists := ctx.Get("user_id")
+		userIDFromParma := iReq.UId
+		if !exists || userIDFromJWT.(uint) != uint(userIDFromParma) {
+			ctx.JSON(http.StatusOK, internal.NewResponse(internal.ErrUnauthorized, nil))
 			return
 		}
 
