@@ -4,11 +4,7 @@ import (
 	"knowtime/middleware"
 	"knowtime/route/v1/handler"
 
-	_ "knowtime/docs" // 千万不要忘了导入把你上一步生成的docs
-
 	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 // @securityDefinitions.apikey	BearerAuth
@@ -19,7 +15,7 @@ func Bind(server *gin.Engine) (err error) {
 	//服务器状态
 	server.GET("/ping", statusHandler())
 	//Swagger文档
-	server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	//server.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	//用户相关路由
 	userGroup := server.Group("/user")
 	{

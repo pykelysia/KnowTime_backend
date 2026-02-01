@@ -8,8 +8,6 @@ require (
 	github.com/golang-jwt/jwt/v5 v5.3.0
 	github.com/joho/godotenv v1.5.1
 	github.com/pykelysia/pyketools v0.0.0-20251102021803-62fee5b8ba46
-	github.com/swaggo/files v1.0.1
-	github.com/swaggo/gin-swagger v1.6.1
 	github.com/swaggo/swag v1.16.6
 	golang.org/x/crypto v0.47.0
 	gorm.io/gorm v1.31.1
