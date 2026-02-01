@@ -28,10 +28,10 @@ func main() {
 	// 初始化数据库
 	database.InitDatabase()
 	pyketools.Infof("DB Ready!")
-	// 开启网络服务
-	server := gin.Default()
 	// 设置Release模式
 	gin.SetMode(gin.ReleaseMode)
+	// 开启网络服务
+	server := gin.Default()
 	// 绑定路由
 	route.Bind(server)
 	pyketools.Infof("Route Ready!")
