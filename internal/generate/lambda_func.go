@@ -19,7 +19,7 @@ func inputToMessage(ctx context.Context, input map[string]any) (output []*schema
 	})
 	output = append(output, &schema.Message{
 		Role:    schema.User,
-		Content: fmt.Sprintf("我的user_id为%d, 请为我分析日期%d的手机使用时间", input["uid"], input["date"]),
+		Content: fmt.Sprintf("我的user_id为%d, 请为我分析日期%d的手机使用时间，并生成一份报告，包含总体使用时间，不同应用分类使用时长以及相应的使用建议。报告中应考虑时间单位转换至合适单位。", input["uid"], input["date"]),
 	})
 	return
 }

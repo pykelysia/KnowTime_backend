@@ -32,7 +32,7 @@ func queryTimeEvents(ctx context.Context) (bt tool.BaseTool, err error) {
 func (impl *ToolImpl) Info(ctx context.Context) (*schema.ToolInfo, error) {
 	return &schema.ToolInfo{
 		Name: "query_time_event",
-		Desc: "获取某一用户在某天的 TimeEvent 情况",
+		Desc: "获取某一用户在某天的手机应用使用时间情况，返回该用户在该天的所有应用使用时间数据，包含应用名称和使用时长（单位：毫秒）。",
 		ParamsOneOf: schema.NewParamsOneOfByParams(map[string]*schema.ParameterInfo{
 			"user_id": {
 				Type:     "int",
