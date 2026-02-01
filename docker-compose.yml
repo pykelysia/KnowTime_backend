@@ -8,6 +8,10 @@ services:
     environment:
       - ENV=production
       - DB_HOST=mysql-db
+      - DB_USERNAME=knowtime_user
+      - DB_PASSWORD=knowtime_password
+      - DB_PORT=3306
+      - DB_NAME=knowtime_db
     env_file:
       - .env
     depends_on:
@@ -19,7 +23,7 @@ services:
   mysql-db:
     image: mysql:8.0
     ports:
-      - "3306:3306"
+      - "127.0.0.1:3306:3306"
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: knowtime_db
