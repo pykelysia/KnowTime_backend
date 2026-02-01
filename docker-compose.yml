@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   knowtime-backend:
-    build: .
+    image: ghcr.io/pykelysia/knowtime-backend:main
     ports:
       - "8080:8080"
     environment:
