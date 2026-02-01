@@ -1,8 +1,29 @@
 <div align="center">
-    <h1>KnowTime_Backend</h1>
-    <!-- <img alt="GitHub License" src="https://img.shields.io/github/license/pykelysia/KnowTime_Backend"> -->
+    <h1>知时后端</h1>
     <img alt="Backend" src="https://img.shields.io/badge/Go-1.24.5-blue?logo=go">
 </div>
+
+## 项目介绍
+
+### 项目背景
+
+在当前的互联网社会，手机等电子产品逐渐成为年轻人的刚需。在深度使用各大APP方便日常生活的同时，也为使用者带来了相应的后果。诸如视力衰退、沉迷网游、拖延症等各种手机“病症”也随之而来。因此急需要一款能够有效统计和管控手机等电子产品的使用时长、细分使用内容的APP来帮助使用者更有效地利用时间，形成合理的电子设备使用习惯并提出有操作性的使用建议。
+
+## 项目内容
+
+针对这一社会现象，我们决定开发“KnowTime”知时APP。它能通过多种方式收集用户的手机及其他电子产品的使用情况，通过分析各类APP打开次数和使用时长，推测用户使用内容和使用行为。根据用户终端性能进行端侧或云端AI分析，针对用户的电子产品使用情况，给出合理的建议和分析报告，帮助用户养成良好的电子产品使用习惯。
+
+## 部署方法
+
+推荐使用Docker Compose一键部署，首先获得Compose文件：
+```bash
+curl -o docker-compose.yml https://raw.githubusercontent.com/pykelysia/KnowTime_Backend/main/docker-compose.yml
+```
+
+然后启动：
+```bash
+docker compose up -d
+```
 
 ## API响应格式统一化说明
 
