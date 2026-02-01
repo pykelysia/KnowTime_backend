@@ -37,7 +37,6 @@ func InitDatabase() (err error) {
 	if err != nil {
 		pyketools.Fatalf("database migrate error: %v", err)
 	}
-	pyketools.Infof("DB Ready!")
 	return
 }
 

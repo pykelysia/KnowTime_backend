@@ -13,8 +13,18 @@ var (
 
 // PrintBuildInfo 打印构建信息
 func PrintBuildInfo() {
-	fmt.Printf("KnowTime Backend Starting...\n")
-
+	fmt.Println("888    d8P                              88888888888 d8b                        ")
+	fmt.Println("888   d8P                                   888     Y8P                        ")
+	fmt.Println("888  d8P                                    888                                ")
+	fmt.Println("888d88K     88888b.   .d88b.  888  888  888 888     888 88888b.d88b.   .d88b.  ")
+	fmt.Println("8888888b    888  88b d88  88b 888  888  888 888     888 888  888  88b d8P  Y8b ")
+	fmt.Println("888  Y88b   888  888 888  888 888  888  888 888     888 888  888  888 88888888 ")
+	fmt.Println("888   Y88b  888  888 Y88..88P Y88b 888 d88P 888     888 888  888  888 Y8b.     ")
+	fmt.Println("888    Y88b 888  888   Y88P     Y8888888P   888     888 888  888  888   Y8888  ")
+	fmt.Println("                                                                               ")
+	fmt.Println("                                                                               ")
+	fmt.Println("Backend By pykelysia and lvshujun                                              ")
+	fmt.Println("-----------------------------------")
 	if GitCommit != "" {
 		fmt.Printf("Git Commit: %s\n", GitCommit)
 	} else {

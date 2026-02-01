@@ -8,6 +8,8 @@ import (
 	"knowtime/internal/chat"
 	"knowtime/internal/generate"
 	"time"
+
+	"github.com/pykelysia/pyketools"
 )
 
 func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg, error) {
@@ -26,6 +28,7 @@ func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg,
 			Duration: 0,
 			UIdRefer: uid,
 		})
+		pyketools.Infof("User [%d] Create TimeEvent [%s]", uid, i.AppName)
 		if err != nil {
 			return NewBaseMsg(ErrCreateTimeEvent), err
 		}
@@ -36,6 +39,7 @@ func InternalUsualMsgPostInternal(uid uint, i InternalUsualMsgPostReq) (BaseMsg,
 	te, err = timeEventEngine.Get(uid, i.AppName, currentDate)
 	te.Duration += int(ireq.Duration)
 	err = timeEventEngine.Update(&te)
+	pyketools.Infof("User [%d] Update TimeEvent [%s]", uid, i.AppName)
 	if err != nil {
 		return NewBaseMsg(ErrUpdateTimeEvent), err
 	}
@@ -57,7 +61,9 @@ func InternalGenerateInternal(i InternalGenerateReq) (InternalGenerateResp, Base
 		fmt.Printf("%s", err.Error())
 		return InternalGenerateResp{}, NewBaseMsg(ErrCallAgent), err
 	}
-
+	pyketools.Infof("User [%d] AI Time Report Generate[%s]", i.UId, i.Date)
+	// 截断output记录日志
+	pyketools.Infof("Short Output: %s", output[0:100])
 	return InternalGenerateResp{
 		Output: output,
 	}, NewBaseMsg(SUCCESS), nil
@@ -75,10 +81,12 @@ func InternalChatInternal(i InternalChatReq) (InternalChatResp, BaseMsg, error) 
 		Role:    "user",
 		Content: i.Message,
 	}
+	pyketools.Infof("User [%d] AI Chat Agent input: %s", i.UId, i.Message)
 	output, err := reActEngine.Invoke(context.Background(), msg)
 	if err != nil {
 		return InternalChatResp{}, NewBaseMsg(ErrCallAgent), err
 	}
+	pyketools.Infof("User [%d] AI Chat Agent output: %s", i.UId, output)
 	return InternalChatResp{
 		Output: output,
 	}, NewBaseMsg(SUCCESS), nil

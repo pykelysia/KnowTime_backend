@@ -22,19 +22,23 @@ import (
 func main() {
 	// 打印构建信息
 	internal.PrintBuildInfo()
-
 	// 加载环境
 	config.LoadEnv("./.env")
-
+	pyketools.Infof("Env Ready!")
 	// 初始化数据库
 	database.InitDatabase()
-
+	pyketools.Infof("DB Ready!")
 	// 开启网络服务
 	server := gin.Default()
-	route.Bind(server)         // 绑定路由
-	err := server.Run(":8080") // 开始监听
-	pyketools.Infof("Gin Server Ready at 8080")
+	// 设置Release模式
+	gin.SetMode(gin.ReleaseMode)
+	// 绑定路由
+	route.Bind(server)
+	pyketools.Infof("Route Ready!")
+	// 开始监听
+	err := server.Run(":8080")
+	pyketools.Infof("Gin Server[8080] Ready!")
 	if err != nil {
-		pyketools.Fatalf("net start fail: %v", err)
+		pyketools.Fatalf("Gin Server[8080] Failed: %v", err)
 	}
 }

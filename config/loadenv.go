@@ -10,7 +10,7 @@ import (
 func LoadEnv(p string) {
 	err := godotenv.Load(p)
 	if err != nil {
-		pyketools.Infof(".env not loaded: %v", err)
+		pyketools.Infof("File .env not loaded: %v", err)
 	}
 
 	ChatModelName = os.Getenv("CHAT_MODEL_NAME")
